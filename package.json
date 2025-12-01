@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "react-router-dom": "^7.9.1"
+  },
+  "name": "to-do-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mosouri/To-Do-App.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Mosouri/To-Do-App/issues"
+  },
+  "homepage": "https://github.com/Mosouri/To-Do-App#readme"
+}
