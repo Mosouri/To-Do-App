@@ -10,8 +10,11 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const userRouter = require('./routes/users')
-app.use("/user",userRouter)
+const userRouter = require("./routes/users");
+app.use("/user", userRouter);
+
+const listsRouter = require("./routes/lists");
+app.use("/lists", listsRouter);
 
 app.use("/", (req, res) => res.status(404).json("No content at this path"));
 

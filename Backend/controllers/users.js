@@ -48,5 +48,70 @@ const register = async (req, res) => {
     });
 };
 
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  const query = `SELECT * FROM users WHERE email = $1`;
+  const values = [email];
 
-module.exports = { register };
+  try {
+    const result = await db.query(query, values);
+    const user = result.rows[0];
+
+    if (!user) {
+      return res.status(403).json({
+        success: false,
+        message: "Invalid Email Or Password",
+      });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(403).json({
+        success: false,
+        message: "Invalid Email Or Password",
+      });
+    }
+    const payload = {
+      userId: user.userId,
+    };
+    const option = {
+      expiresIn: "60m",
+    };
+
+    const token = jwt.sign(payload, process.env.SECRET, option);
+    res.status(201).json({
+      success: true,
+      message: "Login Successful",
+      token: token,
+      userId: user.userId,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({
+      success: false,
+      message: "Valid login Credentials",
+      err: err.message,
+    });
+  }
+};
+
+const getUserInfoById = (req, res) => {
+  const id = req.params.id;
+  db.query(`SELECT * FROM users WHERE id='${id}' AND users.is_deleted=0`)
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        message: `User ${id}`,
+        result: result.rows,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: `Server error`,
+        err: err,
+      });
+    });
+};
+
+module.exports = { register, login, getUserInfoById };
